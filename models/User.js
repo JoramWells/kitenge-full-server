@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../config/connection");
 
-//create user table
+//create User table
 const User = db.define("user", {
   username: {
     type: Sequelize.STRING,
