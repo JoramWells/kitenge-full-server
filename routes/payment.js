@@ -1,7 +1,8 @@
+require('dotenv').config()
 const express = require("express");
 const axios = require("axios");
 const dateFormat = require('dateformat')
-require('dotenv').config()
+
 const router = express.Router()
 const access = require("../middleware/access");
 

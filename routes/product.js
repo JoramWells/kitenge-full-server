@@ -1,8 +1,9 @@
+require('dotenv').config('../.env')
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const webp = require("webp-converter");
-require('dotenv').config()
+
 const Product = require("../models/Product");
 const Category = require("../models/Category");
 webp.grant_permission();
@@ -45,6 +46,9 @@ router.get("/products", (req, res) => {
   Product.findAll({ order: [["updatedAt", "DESC"]] })
     .then((products) => {
       res.send(products);
+      console.log('data' + process.env.PUBLIC_KEY)
+      // console.log(require('dotenv').config([0]))
+
     })
     .catch((err) => console.log(err));
 });

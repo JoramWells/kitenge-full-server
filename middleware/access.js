@@ -1,6 +1,5 @@
-const axios = require("axios");
 require('dotenv').config()
-
+const axios = require("axios");
 const url =
   "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
 
