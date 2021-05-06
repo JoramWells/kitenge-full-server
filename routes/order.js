@@ -3,6 +3,7 @@ const Order = require("../models/Order");
 
 const router = express.Router();
 
+//order routes
 router.get("/orders", (req, res) => {
   Order.findAll({})
     .then((items) => res.send(items))
