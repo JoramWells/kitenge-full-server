@@ -2,6 +2,7 @@ require('dotenv').config('../.env')
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
+const formatImage = require('../middleware/sharp-image')
 const webp = require("webp-converter");
 
 const Product = require("../models/Product");
@@ -15,15 +16,16 @@ const storage = multer.diskStorage({
     const filename = ext + ".webp";
     console.log(ext);
     cb(null, file.originalname);
-    await webp
-      .cwebp(
-        "./uploads/" + file.originalname,
-        "./uploads/" + filename,
-        "-q 80",
-        (logging = "-v")
-      )
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
+    formatImage("/uploads/"+file.originalname,filename)
+    // await webp
+    //   .cwebp(
+    //     "./uploads/" + file.originalname,
+    //     "./uploads/" + filename,
+    //     "-q 80",
+    //     (logging = "-v")
+    //   )
+    //   .then((response) => console.log(response))
+    //   .catch((err) => console.log(err));
   },
 });
 
