@@ -46,8 +46,6 @@ router.get("/products", (req, res) => {
   Product.findAll({ order: [["updatedAt", "DESC"]] })
     .then((products) => {
       res.send(products);
-      console.log('data' + process.env.PUBLIC_KEY)
-      // console.log(require('dotenv').config([0]))
 
     })
     .catch((err) => console.log(err));
