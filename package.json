@@ -20,6 +20,7 @@
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.7",
     "sequelize": "^6.6.2",
+    "sharp": "^0.28.1",
     "webp-converter": "^2.3.3"
   }
 }
