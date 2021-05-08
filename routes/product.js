@@ -13,10 +13,10 @@ const storage = multer.diskStorage({
   destination:"./uploads/",
   filename: async (req, file, cb) => {
     const ext = file.originalname.slice(0, file.originalname.lastIndexOf("."));
-    const filename = ext + ".webp";
+    const filename ='./images/'+ ext + '.webp'
     console.log(ext);
     cb(null, file.originalname);
-    formatImage("/uploads/"+file.originalname,filename)
+    formatImage(file.originalname,filename)
     // await webp
     //   .cwebp(
     //     "./uploads/" + file.originalname,
