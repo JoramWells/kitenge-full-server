@@ -92,11 +92,13 @@ router.post("/productz/add", async (req, res) => {
 
 //_____________________edit product_________________________
 router.put("/product/add/:id", async (req, res) => {
+  const {name,price,stock,image,ratings,category,description} = req.body
+  const markedDown =dompurify.sanitize(marked(description) ) 
   const productId = req.params.id;
   const product = await Product.findByPk(productId);
   console.log(product.id);
   await Product.update(
-    { product_name: req.body.name, image: req.body.image },
+    { product_name:name,price:price,stock:stock,image:image,ratings:ratings,category:category,description:markedDown},
     { where: { id: product.id } }
   )
     .then((response) => res.json(response))
