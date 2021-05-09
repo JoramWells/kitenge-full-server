@@ -1,31 +1,40 @@
-require('dotenv').config('../.env')
+require("dotenv").config("../.env");
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const formatImage = require('../middleware/sharp-image')
+const marked = require('marked')
 const webp = require("webp-converter");
-
+const sharp = require("sharp");
+const {JSDOM} = require('jsdom')
+const createDomPurify = require('dompurify')
+const dompurify = createDomPurify(new JSDOM().window)
 const Product = require("../models/Product");
 const Category = require("../models/Category");
 webp.grant_permission();
 
 const storage = multer.diskStorage({
-  destination:"./uploads/",
+  destination: "./uploads/",
   filename: async (req, file, cb) => {
     const ext = file.originalname.slice(0, file.originalname.lastIndexOf("."));
-    const filename ='./images/'+ ext + '.webp'
+    const filename = "./images/" + ext + ".webp";
     console.log(ext);
     cb(null, file.originalname);
-    formatImage(file.originalname,filename)
-    // await webp
-    //   .cwebp(
-    //     "./uploads/" + file.originalname,
-    //     "./uploads/" + filename,
-    //     "-q 80",
-    //     (logging = "-v")
-    //   )
-    //   .then((response) => console.log(response))
-    //   .catch((err) => console.log(err));
+    await webp
+      .cwebp(
+        "./uploads/" + file.originalname,
+        filename,
+        "-q 80",
+        (logging = "-v")
+      )
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
+    await sharp(filename)
+      .resize(750, 500)
+      .toFile("./uploads/"+ ext + '.webp')
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => console.log(err));
   },
 });
 
@@ -48,7 +57,6 @@ router.get("/products", (req, res) => {
   Product.findAll({ order: [["updatedAt", "DESC"]] })
     .then((products) => {
       res.send(products);
-
     })
     .catch((err) => console.log(err));
 });
@@ -64,12 +72,14 @@ router.get("/products", (req, res) => {
 
 //_____________________ADD PRODUCT_________________________
 router.post("/productz/add", async (req, res) => {
+  const description = req.body.description
+  const markedDown =dompurify.sanitize(marked(description) ) 
   await Product.create({
     product_name: req.body.name,
     stock: req.body.stock,
     price: req.body.price,
     image: req.body.image,
-    description: req.body.description,
+    description: markedDown,
     category: req.body.category,
     shop: req.body.shop,
     ratings: req.body.ratings,
@@ -88,8 +98,9 @@ router.put("/product/add/:id", async (req, res) => {
   await Product.update(
     { product_name: req.body.name, image: req.body.image },
     { where: { id: product.id } }
-  ).then(response=>res.json(response))
-  .catch(err=>console.log(err))
+  )
+    .then((response) => res.json(response))
+    .catch((err) => console.log(err));
 });
 
 //_______________get category route_____________________
