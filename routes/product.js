@@ -83,6 +83,7 @@ router.post("/productz/add", async (req, res) => {
     category: req.body.category,
     shop: req.body.shop,
     ratings: req.body.ratings,
+    likes:req.body.likes,
   })
     .then((response) => {
       res.json(response);
@@ -92,16 +93,34 @@ router.post("/productz/add", async (req, res) => {
 
 //_____________________edit product_________________________
 router.put("/product/add/:id", async (req, res) => {
-  const {name,price,stock,image,ratings,category,description} = req.body
+  const {name,price,stock,image,ratings,category,description,likes} = req.body
   const markedDown =dompurify.sanitize(marked(description) ) 
   const productId = req.params.id;
   const product = await Product.findByPk(productId);
   console.log(product.id);
   await Product.update(
-    { product_name:name,price:price,stock:stock,image:image,ratings:ratings,category:category,description:markedDown},
+    { product_name:name,price:price,stock:stock,image:image,ratings:ratings,category:category,description:markedDown, likes:likes},
     { where: { id: product.id } }
   )
     .then((response) => res.json(response))
+    .catch((err) => console.log(err));
+});
+
+router.put("/product/likes/:id", async (req, res) => {
+  const {likes} = req.body
+  const productId = req.params.id;
+  const product = await Product.findByPk(productId);
+  console.log(product.id);
+  await Product.update(
+    { likes:likes},
+    { where: { id: product.id } }
+  )
+    .then(async(response) => {
+      const updated =await Product.findByPk(productId);
+      
+      console.log(updated.likes)
+      res.json(updated.likes)
+    })
     .catch((err) => console.log(err));
 });
 

@@ -7,6 +7,7 @@ const productRoutes = require("../routes/product");
 const mpesaRoutes = require("../routes/payment");
 const orderRoutes = require("../routes/order");
 const compression = require('compression')
+const axios  = require('axios')
 
 // const User = require('../models/User')
 // const Order = require("../models/Order");
@@ -59,6 +60,17 @@ app.use("/user", userRoutes);
 app.use("/mpes", mpesaRoutes);
 app.use("/payment", orderRoutes);
 
+app.post('/andeyo',async (req,res)=>{
+  console.log(req.body)
+  await axios.post('https://andeyo.herokuapp.com/posts',req.body).then(response=>{
+      res.send(response.data)
+    console.log(response.data)
+  })
+  .catch(err=>console.log(err))
+  // await axios.post('/andeyo',dataJSON).then(response=>{console.log(response.data)}).catch(err=>console.log(err))
+    
+  // res.end()
+})
 
 
 

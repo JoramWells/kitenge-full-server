@@ -26,6 +26,9 @@ const Product = db.define('product',{
     },
     description:{
         type:Sequelize.STRING
+    },
+    likes:{
+        type:Sequelize.INTEGER
     }
 })
 
