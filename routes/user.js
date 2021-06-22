@@ -4,6 +4,9 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const saltRounds = 10;
 const { getToken } = require("../middleware/util");
+const Product = require("../models/Product");
+
+User.hasMany(Product,{as:"Product", foreignKey:"userId"})
 
 const router = express.Router();
 

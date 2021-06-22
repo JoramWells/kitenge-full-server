@@ -10,7 +10,10 @@ const createDomPurify = require('dompurify')
 const dompurify = createDomPurify(new JSDOM().window)
 const Product = require("../models/Product");
 const Category = require("../models/Category");
+const User = require("../models/User");
 webp.grant_permission();
+
+Product.belongsTo(User,{as:"User", foreignKey:"userId"})
 
 const storage = multer.diskStorage({
   destination: "./uploads/",

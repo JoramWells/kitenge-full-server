@@ -3,6 +3,12 @@ const db = require("../config/connection");
 
 //create User table
 const User = db.define("user", {
+  id:{
+    type:Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    allowNull:false,
+    primaryKey:true
+  },
   username: {
     type: Sequelize.STRING,
   },

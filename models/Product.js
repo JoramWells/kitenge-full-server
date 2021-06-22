@@ -9,17 +9,21 @@ const Product = db.define('product',{
     price:{
         type:Sequelize.INTEGER
     },
+    discount:{
+        type:Sequelize.INTEGER
+    },
     stock:{
         type:Sequelize.INTEGER,
     },
-    shop:{
-        type:Sequelize.STRING
+    userId:{
+        type:Sequelize.UUID,
+        defaultValue:Sequelize.UUIDV4
     },
     image:{
         type:Sequelize.STRING
     },
     ratings:{
-        type:Sequelize.STRING
+        type:Sequelize.FLOAT
     },
     category:{
         type:Sequelize.STRING
@@ -27,7 +31,7 @@ const Product = db.define('product',{
     description:{
         type:Sequelize.STRING
     },
-    likes:{
+    views:{
         type:Sequelize.INTEGER
     }
 })

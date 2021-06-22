@@ -9,6 +9,8 @@ const orderRoutes = require("../routes/order");
 const aiDataRoutes = require("../routes/aidata");
 const compression = require('compression')
 const axios  = require('axios')
+const Product = require('../models/Product.js')
+const User = require('../models/User.js')
 
 // const User = require('../models/User')
 // const Order = require("../models/Order");
@@ -52,8 +54,8 @@ db.authenticate()
   //   await AIData.sync({force:true})
 
   // })
-  //   await Category.sync({force:true})
-  //   await Order.sync({force:true})
+  //   await Product.sync({force:true})
+  //   await User.sync({force:true})
 
   // })
 
