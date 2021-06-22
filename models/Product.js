@@ -1,39 +1,59 @@
-const Sequelize = require('sequelize')
-const db = require('../config/connection')
+const Sequelize = require("sequelize");
+const db = require("../config/connection");
 
 //Create product model
-const Product = db.define('product',{
-    product_name:{
-        type:Sequelize.STRING
+const Product = db.define(
+  "product",
+  {
+    id: {
+      type: Sequelize.UUID,
+      defaultValue: Sequelize.UUIDV4,
+      allowNull: false,
+      primaryKey: true,
     },
-    price:{
-        type:Sequelize.INTEGER
+    product_name: {
+      type: Sequelize.STRING,
     },
-    discount:{
-        type:Sequelize.INTEGER
+    price: {
+      type: Sequelize.INTEGER,
     },
-    stock:{
-        type:Sequelize.INTEGER,
+    selling_price: {
+      type: Sequelize.INTEGER,
     },
-    userId:{
-        type:Sequelize.UUID,
-        defaultValue:Sequelize.UUIDV4
+    discount: {
+      type: Sequelize.INTEGER,
     },
-    image:{
-        type:Sequelize.STRING
+    stock: {
+      type: Sequelize.INTEGER,
     },
-    ratings:{
-        type:Sequelize.FLOAT
+    userId: {
+      type: Sequelize.UUID,
+      defaultValue: Sequelize.UUIDV4,
     },
-    category:{
-        type:Sequelize.STRING
+    image: {
+      type: Sequelize.STRING,
     },
-    description:{
-        type:Sequelize.STRING
+    ratings: {
+      type: Sequelize.FLOAT,
     },
-    views:{
-        type:Sequelize.INTEGER
-    }
-})
+    category: {
+      type: Sequelize.STRING,
+    },
+    description: {
+      type: Sequelize.STRING,
+    },
+    views: {
+      type: Sequelize.INTEGER,
+    },
+  },
+  {
+    hooks: {
+      beforeValidate: function (product) {
+        product.discount =
+          ((product.price - product.selling_price) / product.price) * 100;
+      },
+    },
+  }
+);
 
-module.exports = Product
+module.exports = Product;

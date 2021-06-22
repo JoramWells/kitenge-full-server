@@ -50,14 +50,14 @@ app.use(compression())
 db.authenticate()
 .then(()=>console.log('Connected to kitenge succesfully :('))
 .catch((err)=>console.log(err))
-  // .then(async()=>{
-  //   await AIData.sync({force:true})
+  .then(async()=>{
+    // await AIData.sync({force:true})
 
   // })
-  //   await Product.sync({force:true})
+    await Product.sync({force:true})
   //   await User.sync({force:true})
 
-  // })
+  })
 
   //Routes
   //***********Product,User,M-PESA ****************** */
