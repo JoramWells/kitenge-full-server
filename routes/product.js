@@ -32,7 +32,7 @@ const storage = multer.diskStorage({
       .then((response) => console.log(response))
       .catch((err) => console.log(err));
     await sharp(filename)
-      .resize(750, 500)
+      .resize(750, 550)
       .toFile("./uploads/"+ ext + '.webp')
       .then((data) => {
         console.log(data);
@@ -81,12 +81,11 @@ router.post("/productz/add", async (req, res) => {
     product_name: req.body.name,
     stock: req.body.stock,
     price: req.body.price,
+    selling_price: req.body.selling_price,
     image: req.body.image,
     description: markedDown,
     category: req.body.category,
-    shop: req.body.shop,
-    ratings: req.body.ratings,
-    likes:req.body.likes,
+    userId: req.body.userId,
   })
     .then((response) => {
       res.json(response);
