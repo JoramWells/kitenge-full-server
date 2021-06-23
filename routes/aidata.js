@@ -1,17 +1,30 @@
 const express = require("express");
 const AIData = require("../models/AIData");
-const User = require("../models/User");
+const Product = require("../models/Product");
 const router = express.Router();
-AIData.belongsTo(User,{as:"User", foreignKey:"user_info"})
+AIData.belongsTo(Product, { as: "Product", foreignKey: "productId" });
 
 // _______________________________post userinfo___________________
 router.post("/", async (req, res) => {
-  const { user_info,product_id } = req.body;
+  const { ipAddr, productId } = req.body;
   await AIData.create({
-    user_info: user_info,
-    product_id:product_id,
+    ipAddr: ipAddr,
+    productId: productId,
+  }).catch((err) => console.log(err));
+});
 
+router.get("/likes/:id", (req, res) => {
+  const id = req.params.id
+  AIData.findAndCountAll({
+    where:{
+      productId:id
+    }
   })
+    .then((likes) => res.json(likes.count))
     .catch((err) => console.log(err));
 });
-module.exports=router
+
+
+
+
+module.exports = router;

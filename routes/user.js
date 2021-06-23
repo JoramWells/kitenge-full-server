@@ -105,6 +105,18 @@ router.post("/login", async (req, res) => {
   });
 });
 
+router.get("/avatar/:id",async (req,res)=>{
+  const id = req.params.id
+  await User.findOne({
+    where:{
+      id:id
+    },
+    attributes:["avatar"]
+  }).then(avatar=>res.send(avatar.avatar))
+  .catch(err=>console.log(err))
+  
+})
+
 
 
 module.exports = router;

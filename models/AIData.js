@@ -10,11 +10,10 @@ const AIData = db.define("aidata", {
     allowNull: false,
     primaryKey: true,
   },
-  user_info: {
-    type: Sequelize.UUID,
-    defaultValue: Sequelize.UUIDV4,
+  ipAddr: {
+    type: Sequelize.STRING,
   },
-  product_id: {
+  productId: {
     type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
   }
