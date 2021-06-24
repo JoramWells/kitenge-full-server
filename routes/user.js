@@ -53,7 +53,7 @@ router.post("/register",async (req, res) => {
     } else{
       res.send({
         success:false,
-        message:"User already exists"
+        message:"Email already exists,please login"
       })
     }
   })

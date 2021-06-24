@@ -2,18 +2,18 @@ require("dotenv").config("../.env");
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const marked = require('marked')
+const marked = require("marked");
 const webp = require("webp-converter");
 const sharp = require("sharp");
-const {JSDOM} = require('jsdom')
-const createDomPurify = require('dompurify')
-const dompurify = createDomPurify(new JSDOM().window)
+const { JSDOM } = require("jsdom");
+const createDomPurify = require("dompurify");
+const dompurify = createDomPurify(new JSDOM().window);
 const Product = require("../models/Product");
 const Category = require("../models/Category");
 const User = require("../models/User");
 webp.grant_permission();
 
-Product.belongsTo(User,{as:"User", foreignKey:"userId"})
+Product.belongsTo(User, { as: "User", foreignKey: "userId" });
 
 const storage = multer.diskStorage({
   destination: "./uploads/",
@@ -26,16 +26,18 @@ const storage = multer.diskStorage({
       .cwebp(
         "./uploads/" + file.originalname,
         filename,
-        "-q 80",
+        "-q 90",
         (logging = "-v")
       )
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
-    await sharp(filename)
-      .resize(750, 550)
-      .toFile("./uploads/"+ ext + '.webp')
-      .then((data) => {
-        console.log(data);
+      .then(async (response) => {
+        console.log(response)
+        await sharp(filename)
+          .resize(750, 550)
+          .toFile("./uploads/" + ext + ".webp")
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   },
@@ -75,8 +77,8 @@ router.get("/products", (req, res) => {
 
 //_____________________ADD PRODUCT_________________________
 router.post("/productz/add", async (req, res) => {
-  const description = req.body.description
-  const markedDown =dompurify.sanitize(marked(description) ) 
+  const description = req.body.description;
+  const markedDown = dompurify.sanitize(marked(description));
   await Product.create({
     product_name: req.body.name,
     stock: req.body.stock,
@@ -95,13 +97,23 @@ router.post("/productz/add", async (req, res) => {
 
 //_____________________edit product_________________________
 router.put("/product/add/:id", async (req, res) => {
-  const {name,price,stock,image,ratings,category,description,likes} = req.body
-  const markedDown =dompurify.sanitize(marked(description) ) 
+  const { name, price, stock, image, ratings, category, description, likes } =
+    req.body;
+  const markedDown = dompurify.sanitize(marked(description));
   const productId = req.params.id;
   const product = await Product.findByPk(productId);
   console.log(product.id);
   await Product.update(
-    { product_name:name,price:price,stock:stock,image:image,ratings:ratings,category:category,description:markedDown, likes:likes},
+    {
+      product_name: name,
+      price: price,
+      stock: stock,
+      image: image,
+      ratings: ratings,
+      category: category,
+      description: markedDown,
+      likes: likes,
+    },
     { where: { id: product.id } }
   )
     .then((response) => res.json(response))
@@ -109,19 +121,16 @@ router.put("/product/add/:id", async (req, res) => {
 });
 
 router.put("/product/likes/:id", async (req, res) => {
-  const {likes} = req.body
+  const { likes } = req.body;
   const productId = req.params.id;
   const product = await Product.findByPk(productId);
   console.log(product.id);
-  await Product.update(
-    { likes:likes},
-    { where: { id: product.id } }
-  )
-    .then(async(response) => {
-      const updated =await Product.findByPk(productId);
-      
-      console.log(updated.likes)
-      res.json(updated.likes)
+  await Product.update({ likes: likes }, { where: { id: product.id } })
+    .then(async (response) => {
+      const updated = await Product.findByPk(productId);
+
+      console.log(updated.likes);
+      res.json(updated.likes);
     })
     .catch((err) => console.log(err));
 });
