@@ -13,6 +13,13 @@ const AIData = db.define("aidata", {
   ipAddr: {
     type: Sequelize.STRING,
   },
+  lat:{
+    type:Sequelize.STRING
+
+  },
+  lng:{
+    type:Sequelize.STRING
+  },
   productId: {
     type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,

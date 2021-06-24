@@ -6,9 +6,11 @@ AIData.belongsTo(Product, { as: "Product", foreignKey: "productId" });
 
 // _______________________________post userinfo___________________
 router.post("/", async (req, res) => {
-  const { ipAddr, productId } = req.body;
+  const { ipAddr,lat,lng, productId } = req.body;
   await AIData.create({
     ipAddr: ipAddr,
+    lat:lat,
+    lng:lng,
     productId: productId,
   }).catch((err) => console.log(err));
 });
