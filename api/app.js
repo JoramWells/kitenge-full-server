@@ -67,12 +67,25 @@ app.use("/aidata", aiDataRoutes);
 
 
 app.post('/andeyo',async (req,res)=>{
-  console.log(req.body)
-  await axios.post('https://andeyo.herokuapp.com/posts',req.body).then(response=>{
-      res.send(response.data)
-    console.log(response.data)
-  })
-  .catch(err=>console.log(err))
+  try {
+    await axios.post('http://127.0.0.1:8000/product/search',req.body,
+    {
+     headers: {
+       'Content-Type': 'application/json',
+       'Authorization': "Token 1c461b9d2c5e6475fd2da577bb8e5b70f2795fe5",
+     },
+   }
+   ).then(response=>{
+       res.send(response.data)
+     console.log(response.data)
+   })
+   .catch(err=>console.log(err.message))
+    
+  } catch (error) {
+    console.log(error)
+    
+  }
+
   // await axios.post('/andeyo',dataJSON).then(response=>{console.log(response.data)}).catch(err=>console.log(err))
     
   // res.end()
