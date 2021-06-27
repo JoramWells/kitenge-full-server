@@ -46,14 +46,14 @@ const Product = db.define(
       type: Sequelize.INTEGER,
     },
   },
-//   {
-//     hooks: {
-//       beforeValidate: function (product) {
-//         product.discount =
-//           ((product.price - product.selling_price) / product.price) * 100;
-//       },
-//     },
-//   }
+  {
+    hooks: {
+      beforeValidate: function (product) {
+        product.discount =
+          ((product.price - product.selling_price) / product.price) * 100;
+      },
+    },
+  }
 );
 
 module.exports = Product;
