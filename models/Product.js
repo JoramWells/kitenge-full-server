@@ -33,6 +33,9 @@ const Product = db.define(
     image: {
       type: Sequelize.STRING,
     },
+    alt: {
+      type: Sequelize.STRING,
+    },
     ratings: {
       type: Sequelize.FLOAT,
     },
@@ -52,6 +55,13 @@ const Product = db.define(
         product.discount =
           ((product.price - product.selling_price) / product.price) * 100;
       },
+      beforeValidate:function(product){
+        let d = new Date()
+
+        product.alt ="dozens-kenya-"+ d.getMonth() + ":" + d.getDate() + ":"+ d.getDay()
+
+
+      }
     },
   }
 );
