@@ -30,7 +30,7 @@ const storage = multer.diskStorage({
         (logging = "-v")
       )
       .then(async (response) => {
-        console.log(response)
+        console.log(response);
         await sharp(filename)
           .resize(750, 550)
           .toFile("./uploads/" + ext + ".webp")
@@ -59,9 +59,14 @@ router.post("/upload", (req, res) => {
 //_________________find all products___________________________
 
 router.get("/products", (req, res) => {
-  Product.findAll({ order: [["updatedAt", "DESC"]] })
+  const { page, size } = req.query;
+  Product.findAndCountAll({
+    // order: [["updatedAt", "DESC"]],
+    limit: parseInt(req.query.size),
+    offset: parseInt(req.query.size * req.query.page),
+  })
     .then((products) => {
-      res.send(products);
+      res.send(products.rows);
     })
     .catch((err) => console.log(err));
 });
