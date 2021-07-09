@@ -13,10 +13,10 @@ router.post("/search", async (req, res) => {
     console.log("wtf")
   try {
     await axios
-      .post(`${DEV_URL}/product/search`, req.body, {
+      .post(`${url}/product/search`, req.body, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: AUTH_TOKEN,
+          Authorization: auth,
         },
       })
       .then((response) => {
