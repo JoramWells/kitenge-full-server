@@ -62,8 +62,8 @@ router.get("/products", (req, res) => {
   const { page, size } = req.query;
   Product.findAndCountAll({
     order: [["updatedAt", "DESC"]],
-    // limit: parseInt(req.query.size),
-    // offset: parseInt(req.query.size * req.query.page),
+    offset: parseInt(req.query.size),
+    limit: parseInt(req.query.page),
   })
     .then((products) => {
       res.send(products.rows);

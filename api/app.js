@@ -8,6 +8,7 @@ const mpesaRoutes = require("../routes/payment");
 const orderRoutes = require("../routes/order");
 const aiDataRoutes = require("../routes/aidata");
 const searchRoutes = require("../routes/nancy");
+const geocode = require("../routes/geocoder");
 
 const compression = require("compression");
 
@@ -63,6 +64,13 @@ app.use("/mpes", mpesaRoutes);
 app.use("/payment", orderRoutes);
 app.use("/aidata", aiDataRoutes);
 app.use("/nancy", searchRoutes);
+
+app.get("/geocode", async (req, res) => {
+  await geocode
+    .geocode("Maseno")
+    .then((response) => res.send(response))
+    .catch((err) => res.send(err.message));
+});
 
 app.listen(PORT, () => {
   console.log(`App runing on http://localhost:${PORT}`);
